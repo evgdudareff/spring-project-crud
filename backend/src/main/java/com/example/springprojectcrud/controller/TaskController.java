@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/tasks")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class TaskController {
 
     private final TaskService taskService;
@@ -77,6 +78,14 @@ public class TaskController {
         }
 
         return new ResponseEntity<>(tasks, HttpStatus.OK);
+
+    }
+
+    @RequestMapping(value = "/count", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Long> getAllTask() {
+        long taskCount = taskService.getTaskCount();
+
+        return new ResponseEntity<>(taskCount, HttpStatus.OK);
 
     }
 }

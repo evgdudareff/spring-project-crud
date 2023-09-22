@@ -44,4 +44,8 @@ public class TaskService {
         return tasksPage.getContent();
     }
 
+    public long getTaskCount(){
+        return taskRepository.count();
+    }
+
 }
