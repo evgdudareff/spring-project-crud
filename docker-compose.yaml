@@ -27,6 +27,7 @@ services:
             "spring.datasource.password" : "$MYSQL_USER_PASSWORD",
             "spring.jpa.hibernate.ddl-auto" : "update"
           }'
+    restart: on-failure
 
   frontend:
     build:
