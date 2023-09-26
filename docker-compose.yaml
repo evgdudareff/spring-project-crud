@@ -10,6 +10,8 @@ services:
         - MYSQL_ROOT_PASSWORD=${MYSQL_USER_PASSWORD}
     ports:
       - "${MYSQL_LOCAL_PORT}:${MYSQL_DOCKER_PORT}"
+    healthcheck:
+      test: "mysql --user=root --password=root --execute \"SHOW DATABASES;\""
 
   backend:
     build:
@@ -18,7 +20,8 @@ services:
     ports:
       - "${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     env_file: ./.env
     environment:
       SPRING_APPLICATION_JSON: '{
@@ -27,7 +30,6 @@ services:
             "spring.datasource.password" : "$MYSQL_USER_PASSWORD",
             "spring.jpa.hibernate.ddl-auto" : "update"
           }'
-    restart: on-failure
 
   frontend:
     build:
